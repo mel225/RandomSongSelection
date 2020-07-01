@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes,shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <title>オンゲキ 楽曲検索システム</title>
+    <link rel="stylesheet" href="./content.css">
+    <script src="./createscript.js"></script>
+    <script>
+var baseW = 768;
+var iOSW = 0;
+var ua = navigator.userAgent.toLowerCase();
+var isiOS = (ua.indexOf("iphone") > -1) || (ua.indexOf("ipod") > -1) || (ua.indexOf("ipad") > -1);
+if(isiOS){
+  iOSW = document.documentElement.clientWidth;
+}
+window.addEventListener("resize", updateMetaViewport, false);
+window.addEventListener("orientationchange", updateMetaViewport, false);
+var ev = document.createEvent("UIEvent");
+ev.initEvent("resize", true, true);
+window.dispatchEvent(ev);
+function updateMetaViewport(){
+  var viewportContent;
+  var w = window.outerWidth;
+  if(isiOS){
+    w = iOSW;
+  }
+  if(w < baseW){
+    viewportContent = "width=480,initial-scale=" + w/480 + ",user-scalable=yes,shrink-to-fit=no";
+  }else{
+    viewportContent = "width=device-width,initial-scale=1.0,user-scalable=yes,shrink-to-fit=no";
+  }
+  document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
+}
+    </script>
+  </head>
+  <body>
+    <div>
+      <table name="filter">
+	<thead>
+	  <tr>
+	    <th value="difficulty">難易度</th>
+	    <th value="level">Lv.</th>
+	    <th value="boss_attr">敵属性</th>
+	    <th value="boss_name">敵キャラ</th>
+	    <th value="boss_level">敵Lv.</th>
+	    <th value="genre">ジャンル</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td value="difficulty"><input type="button" onclick="filterselectall(this)" value="全選択"><input type="button" onclick="filternotselectall(this)" value="全解除"></td>
+	    <td value="level"><input type="button" onclick="filterselectall(this)" value="全選択"><input type="button" onclick="filternotselectall(this)" value="全解除"></td>
+	    <td value="boss_attr"><input type="button" onclick="filterselectall(this)" value="全選択"><input type="button" onclick="filternotselectall(this)" value="全解除"></td>
+	    <td value="boss_name"><input type="button" onclick="filterselectall(this)" value="全選択"><input type="button" onclick="filternotselectall(this)" value="全解除"></td>
+	    <td value="boss_level"><input type="button" onclick="filterselectall(this)" value="全選択"><input type="button" onclick="filternotselectall(this)" value="全解除"></td>
+	    <td value="genre"><input type="button" onclick="filterselectall(this)" value="全選択"><input type="button" onclick="filternotselectall(this)" value="全解除"></td>
+	  </tr>
+	</tbody>
+      </table>
+    </div>
+    <br />
+    <div>
+      <table name="random">
+	<thead>
+	  <tr>
+	    <th colspan=4>ランダム選曲　曲数：<input type="text" pattern="^([1-9]\d*|0)(\.\d+)?$" onchange="changeRandomNum(this)" value=1> / <span name="songNum"></span></th>
+	    <th><input type="checkbox" onchange="changeRandomDup(this)" checked="">重複あり</input></th>
+	    <th colspan=2><input type="button" onclick="doRandomSelection()" value="GO!"></th>
+	  </tr>
+	  <tr>
+	    <th value="difficulty">難易度</th>
+	    <th value="title">曲名</th>
+	    <th value="level">Lv.</th>
+	    <th value="boss_attr">敵属性</th>
+	    <th value="boss_name">敵キャラ</th>
+	    <th value="boss_level">敵Lv.</th>
+	    <th value="genre">ジャンル</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  
+	</tbody>
+      </table>
+    </div>
+    <br />
+    <div>
+      <table name="songlist">
+	<caption>クリックでジャケット画像を表示します。</caption>
+	<thead>
+	  <tr>
+	    <th value="difficulty">難易度</th>
+	    <th value="title">曲名</th>
+	    <th value="level">Lv.</th>
+	    <th value="boss_attr">敵属性</th>
+	    <th value="boss_name">敵キャラ</th>
+	    <th value="boss_level">敵Lv.</th>
+	    <th value="genre">ジャンル</th>
+	  </tr>
+	</thead>
+      </table>
+    </div>
+  </body>
+</html>
