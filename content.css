@@ -71,7 +71,7 @@ table[name=filter] td[name=setsublist] {
   cursor: pointer;
 }
 
-table[name=filter] td[name=setsublist]:active {
+table[name=filter] td[name=setsublist]:hover {
   background: #fcc;
 }
 
