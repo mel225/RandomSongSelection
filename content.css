@@ -19,7 +19,7 @@ table tr {
   height: 25px;
 }
 
-table[name=songlist] tbody tr {
+table[name=songlist] tbody tr, table[name=random] tbody tr {
   cursor: pointer;
 }
 
@@ -47,14 +47,16 @@ input[type=text] {
 
 input[type=button] {
   width: 90%;
-  height: 16px;
-  font-size: 12px;
+  height: 18px;
+  font-size: 10px;
+  margin: 2px 0;
 }
 
 table[name=filter] td[name=setsublist] {
   text-align: center;
   font-size: 20px;
   font-weight: bolder;
+  cursor: pointer;
 }
 
 table[name=filter] td[name=setsublist]:active {
