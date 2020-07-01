@@ -5,6 +5,7 @@ body div {
   margin: 0 auto;
   left: 0;
   right: 0;
+  font-size: middle;
 }
 
 table {
@@ -32,7 +33,18 @@ td, th {
   max-width: 100px;
   padding: 2px;
   margin: 0;
-  font-size: 8px;
+}
+
+@media screen and (max-device-width: 960px){
+  td, th {
+    font-size: small;
+  }
+}
+
+@media screen and (min-device-width: 960px){
+  td, th {
+    font-size: 8px;
+  }
 }
 
 td div {
