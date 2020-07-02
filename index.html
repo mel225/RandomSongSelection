@@ -65,7 +65,7 @@ function updateMetaViewport(){
       <table name="random">
 	<thead>
 	  <tr>
-	    <th colspan="4">ランダム選曲　曲数：<input type="text" pattern="^([1-9]\d*|0)(\.\d+)?$" onchange="changeRandomNum(this)" value="1"> / <span name="songNum">1308曲</span></th>
+	    <th colspan="4">ランダム選曲　<input type="number" pattern="\d*" onchange="changeRandomNum(this)" value="1"> / <span name="songNum">1308曲</span></th>
 	    <th><input type="checkbox" onchange="changeRandomDup(this)" checked="">重複あり</th>
 	    <th colspan="2"><input type="button" onclick="doRandomSelection()" value="GO!"></th>
 	  </tr>

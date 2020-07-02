@@ -1,3 +1,7 @@
+body {
+  font-family: sans-serif;
+}
+
 body div {
   width: 460px;
   height: auto;
@@ -30,7 +34,7 @@ table[name=songlist] tbody tr:hover {
 
 td, th {
   min-width: 20px;
-  max-width: 100px;
+  max-width: 120px;
   padding: 2px;
   margin: 0;
 }
@@ -51,8 +55,8 @@ td div {
   width: 100%;
 }
 
-input[type=text] {
-  width: 40px;
+input[type=number] {
+  width: 50px;
   height: 16px;
   font-size: 12px;
 }
@@ -62,6 +66,7 @@ input[type=button] {
   height: 18px;
   font-size: 10px;
   margin: 2px 0;
+  padding: 0;
 }
 
 table[name=filter] td[name=setsublist] {
@@ -77,14 +82,18 @@ table[name=filter] td[name=setsublist]:hover {
 
 table[name=filter] td {
   vertical-align: top;
+  text-align: center;
 }
 
 table[name=filter] ul {
-  margin: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
   padding: 0;
   list-style: none;
   max-height: 165px;
   overflow: auto;
+  width: fit-content;
 }
 
 table[name=filter] li {
@@ -95,10 +104,10 @@ table[name=filter] li {
 
 table[name=filter] li input + label {
   display: block;
-  padding: 0;
-  margin: 1px 0;
+  padding: 1px 2px;
+  margin: 2px 0;
   border: 2px solid;
-  border-radius: 3px;
+  border-radius: 4px;
   text-align: center;
 }
 

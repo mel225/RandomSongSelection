@@ -5,17 +5,18 @@ window.onload = function(){
   var table = document.querySelector("table[name=songlist]");
   Array.from(table.tBodies[0].rows).forEach(function(tr){
     Array.from(tr.cells).forEach(function(td){
-      var element = td.firstElementChild.className.split(" ")[0];
-      if(element != "title"){
+      var item = td.firstElementChild.className.split(" ")[0];
+      if(item != "title"){
+        var value = td.innerText.replace(/[\r\n]/g, "");
         // データ格納
-        tr[element] = td.innerText;
+        tr[item] = value;
 
         // フィルターの要素生成
-        if(window.filter[element]){
-          if(window.filter[element].indexOf(td.innerText) < 0)
-            window.filter[element].push(td.innerText);
+        if(window.filter[item]){
+          if(window.filter[item].indexOf(value) < 0)
+            window.filter[item].push(value);
         }else{
-          window.filter[element] = [td.innerText];
+          window.filter[item] = [value];
         }
       }
       tr.setAttribute("display", true);
@@ -86,7 +87,7 @@ function doRandomSelection(){
 
 function filterselectall(input){
   var items = [];
-  Array.from(document.querySelectorAll(`table[name=filter] tbody td[value=${input.parentNode.getAttribute("value")}] input`)).forEach(function(input){
+  Array.from(document.querySelectorAll(`table[name=filter] tbody td[value=${input.parentNode.getAttribute("value")}] input[type=checkbox]`)).forEach(function(input){
     input.checked = true;
     items.push(input.value);
   });
@@ -94,7 +95,7 @@ function filterselectall(input){
 }
 
 function filternotselectall(input){
-  Array.from(document.querySelectorAll(`table[name=filter] tbody td[value=${input.parentNode.getAttribute("value")}] input`)).forEach(function(input){
+  Array.from(document.querySelectorAll(`table[name=filter] tbody td[value=${input.parentNode.getAttribute("value")}] input[type=checkbox]`)).forEach(function(input){
     input.checked = false;
   });
   window.filter[input.parentNode.getAttribute("value")] = [];
@@ -110,4 +111,5 @@ function changefilteritem(input){
   }else{
     window.filter[item] = window.filter[item].filter(function(value){return value != input.value;});
   }
+  alert(item + ", " + input.checked + ", " + filter[item]);
 }
