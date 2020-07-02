@@ -164,3 +164,7 @@ div.boss_attr.leaf {
 div.boss_attr.aqua {
   background: #2481cc;
 }
+
+div.level, div.boss_level {
+  font-weight: bold;
+}
