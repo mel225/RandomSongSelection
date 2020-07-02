@@ -38,7 +38,6 @@ function viewjacket(tr){
 function setsublist(){
   var count = 0;
   var table = document.querySelector("table[name=songlist]");
-  alert("table:" + table);
   Array.from(table.tBodies[0].rows).forEach(function(tr){
     var applicable = true;
     Object.keys(window.filter).forEach(function(element){
@@ -111,5 +110,4 @@ function changefilteritem(input){
   }else{
     window.filter[item] = window.filter[item].filter(function(value){return value != input.value;});
   }
-  alert(item + ", " + input.checked + ", " + filter[item]);
 }
