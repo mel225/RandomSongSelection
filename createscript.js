@@ -13,12 +13,6 @@ window.onload = async function(){
     };
     xhr.send();
   });
-
-  // scriptファイル名の変更
-  document.querySelector("script[src]").src = "./script.js";
-
-  // viewportの変更
-  document.querySelector("meta[name=viewport]").setAttribute("content", "width=device-width,initial-scale=1.0,user-scalable=yes,shrink-to-fit=no");
   
   // フィルターの生成
   window.filter = filterselection();
@@ -111,6 +105,12 @@ window.onload = async function(){
   button.setAttribute("onclick", "setsublist()");
   button.setAttribute("name", "setsublist");
 
+  // scriptファイル名の変更
+  document.querySelector("script[src]").src = "./script.js";
+
+  // viewportの変更
+  document.querySelector("meta[name=viewport]").setAttribute("content", "width=device-width,initial-scale=1.0,user-scalable=yes,shrink-to-fit=no");
+
   // html取得
   var html = document.querySelector("html").outerHTML;
 
@@ -124,6 +124,10 @@ window.onload = async function(){
   a.href = url;
   a.click();
   console.log(html);
+
+  if(confirm("早速確認する？")){
+    location.href = "./";
+  }
 
   /* これはダメでした
   // せめてouterHTMLをクリップボードに…

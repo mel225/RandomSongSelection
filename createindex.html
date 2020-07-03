@@ -35,8 +35,34 @@ function updateMetaViewport(){
   document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
 }
     </script>
+    <script>
+if(location.href.indexOf("createindex.html") < 0){
+  var animation = {
+    str: ["", ".", "..", "...", "..."],
+    count: 0,
+    timerID: setInterval(function(){
+      var target = document.getElementById("wait-animation");
+      if(target){
+        target.innerText = animation.str[animation.count];
+        animation.count = (animation.count+1) % animation.str.length;
+      }
+    }, 100),
+  };
+  window.addEventListener("load", function(){
+    clearInterval(animation.timerID);
+    document.body.removeChild(document.getElementById("waiting"));
+  });
+}
+    </script>
   </head>
   <body>
+    <div name="modal" id="waiting">
+      <div style="height: 100px">
+	<div style="height: fit-content;">
+	  <span>読み込み中</span><span id="wait-animation"></span><br><span>ちょっと待ってね</span>
+	</div>
+      </div>
+    </div>
     <div>
       <table name="filter">
 	<thead>

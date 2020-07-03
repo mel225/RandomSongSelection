@@ -162,6 +162,8 @@ div[name=modal] img {
 
 div[name=modal] button {
   width: 90%;
+  font-size: 20px;
+  padding: 5px;
 }
 
 /*//////// ここからクラス ////////*/
