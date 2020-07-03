@@ -80,6 +80,7 @@ table[name=filter] button[name=setsublist] {
 table[name=filter] td {
   vertical-align: top;
   text-align: center;
+  overflow: auto;
 }
 
 table[name=filter] ul {
@@ -89,7 +90,6 @@ table[name=filter] ul {
   padding: 0;
   list-style: none;
   max-height: 165px;
-  overflow: auto;
   width: fit-content;
 }
 
