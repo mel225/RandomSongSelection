@@ -106,9 +106,10 @@ window.onload = async function(){
   
   var td = table.tBodies[0].insertRow().insertCell();
   td.colSpan = 6;
-  td.innerText = "ここをクリックすると一覧に反映されます。";
-  td.setAttribute("onclick", "setsublist()");
-  td.setAttribute("name", "setsublist");
+  var button = td.appendChild(document.createElement("button");
+  button.innerText = "ここをクリックすると一覧に反映されます。";
+  button.setAttribute("onclick", "setsublist()");
+  button.setAttribute("name", "setsublist");
 
   // せめてouterHTMLをクリップボードに…
   var html = document.querySelector("html").outerHTML;
