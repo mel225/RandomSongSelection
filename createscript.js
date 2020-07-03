@@ -106,14 +106,27 @@ window.onload = async function(){
   
   var td = table.tBodies[0].insertRow().insertCell();
   td.colSpan = 6;
-  var button = td.appendChild(document.createElement("button");
+  var button = td.appendChild(document.createElement("button"));
   button.innerText = "ここをクリックすると一覧に反映されます。";
   button.setAttribute("onclick", "setsublist()");
   button.setAttribute("name", "setsublist");
 
-  // せめてouterHTMLをクリップボードに…
+  // html取得
   var html = document.querySelector("html").outerHTML;
+
+  // blobからデータURL生成
+  var url = URL.createObjectURL(new Blob([html], {type: "text/plain"}));
+
+  // aタグのdownload属性使用してダウンロード
+  var a = document.createElement("a");
+  a.style.display = "none";
+  a.download = "index.html";
+  a.href = url;
+  a.click();
   console.log(html);
+
+  /* これはダメでした
+  // せめてouterHTMLをクリップボードに…
   if(window.clipboardData){
     window.clipboardData.setData("Text" , html);
   }else{
@@ -132,6 +145,7 @@ window.onload = async function(){
     // コピー
     document.execCommand("copy");
   }
+    */
 };
 
 function sublist(filter){

@@ -169,8 +169,6 @@ function filterselectall(input){
     items.push(input.value); // 配列に要素を追加
   });
 
-  console.log("全選択後", window.filter[item]);
-
   // 条件をセット
   window.filter[item] = items;
 }
@@ -184,8 +182,6 @@ function filternotselectall(input){
   Array.from(document.querySelectorAll(`table[name=filter] tbody td[value=${item}] input[type=checkbox]`)).forEach(function(input){
     input.checked = false; // 非選択状態にする
   });
-
-  console.log("全解除後", window.filter[item]);
 
   // 条件(window.filter)を空にする
   window.filter[item] = [];

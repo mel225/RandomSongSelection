@@ -3,18 +3,34 @@ s.src = "https://mel225.github.io/calcBS/xhrAccesser.js";
 s.onload = main;
 
 function main(){
+  xhra.reset();
   Promise.all([
     getSongList("https://ongeki-net.com/ongeki-mobile/record/musicGenre/search/?genre=99&diff=3"),
     getSongList("https://ongeki-net.com/ongeki-mobile/record/musicGenre/search/?genre=99&diff=10")
   ]).then(function(list){
-    var a = [];
-    list.forEach(function(difflist){
-      difflist.forEach(function(diffsong){
-        a.push.apply(a, diffsong);
+    var l = [];
+    list.forEach(function(difficultylist){
+      difficultylist.forEach(function(difficultysong){
+        l.push.apply(l, difficultysong);
       });
     });
-    var json = JSON.stringify(a);
+    window.json = JSON.stringify(l);
+    
+    // blobにしてデータURL生成
+    var url = URL.createObjectURL(new Blob([json], {type: "text/plain"}));
+
+    // aタグのdownload属性使用してダウンロード
+    var a = document.createElement("a"); // ここでhtml本体に追加すると別窓で開く場合がある。
+    a.style.display = "none";
+    a.download = "songlist.json";
+    a.href = url;
+    a.click();
+    
     console.log(json);
+
+    if(confirm("続けて HTML 生成ページ（ローカル）に移行する？")){
+      location.href = "http://localhost/RandomSongSelection/createindex.html";
+    }
   });
 }
 
