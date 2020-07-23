@@ -11,9 +11,11 @@ window.onload = async function(){
     google.script.run.withSuccessHandler(function(json){
       window.songs = JSON.parse(json);
       console.log("=========== finished get song list. ==========");
-      resolve();
+      setTimeout(resolve, 1000);
     }).getSongList();
   });
+  
+  console.log("=========== finished get song list. ==========");
 
   console.log("CREATER HTML: " + JSON.stringify(window.songs));
   
