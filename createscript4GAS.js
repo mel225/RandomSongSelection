@@ -2,10 +2,15 @@ window.onload = async function(){
 
   window.ver = "2020/07/01";
 
+  alert("alert test");
+  console.log("log test");
+
   // songlist.jsonの読み込み
   await new Promise(function(resolve){
+    console.log("========== get song list. ==========");
     google.script.run.withSuccessHandler(function(json){
       window.songs = JSON.parse(json);
+      console.log("=========== finished get song list. ==========");
       resolve();
     }).getSongList();
   });
