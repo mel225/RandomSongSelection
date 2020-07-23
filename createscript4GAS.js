@@ -10,7 +10,7 @@ window.onload = async function(){
     }).getSongList();
   });
 
-  google.script.run.Logger.log("CREATER HTML: " + JSON.stringify(window.songs));
+  console.log("CREATER HTML: " + JSON.stringify(window.songs));
   
   // フィルターの生成
   window.filter = filterselection();
