@@ -11,7 +11,17 @@ window.onload = async function(){
     google.script.run.withSuccessHandler(function(json){
       window.songs = JSON.parse(json);
       console.log("=========== finished get song list. ==========");
-      setTimeout(resolve, 1000);
+      var c = 0;
+      var cc = 0;
+      var id = setInterval(function(){
+        if(window.songs){
+          clearInterval(id);
+          resolve();
+        }else if(parseInt(c / 1000) > cc){
+          console.log(c, "ms keika.");
+        }
+        c++;
+      }, 1);
     }).getSongList();
   });
   
