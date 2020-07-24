@@ -13,7 +13,8 @@ window.onload = async function(){
         reject("update is unnecessarily.");
         return;
       }
-      window.songs = JSON.parse(json);
+      //window.songs = JSON.parse(json);
+      window.songs = json;
       console.log("=========== finished get song list. ==========");
       var c = 0;
       var cc = 0;
