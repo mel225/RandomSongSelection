@@ -6,9 +6,12 @@ window.onload = async function(){
   console.log("log test");
 
   // songlist.jsonの読み込み
-  await new Promise(function(resolve){
+  await new Promise(function(resolve, reject){
     console.log("========== get song list. ==========");
     google.script.run.withSuccessHandler(function(json){
+      if(!json){
+        reject("update is unnecessarily.");
+      }
       window.songs = JSON.parse(json);
       console.log("=========== finished get song list. ==========");
       var c = 0;
