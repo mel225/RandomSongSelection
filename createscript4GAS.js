@@ -11,6 +11,7 @@ window.onload = async function(){
     google.script.run.withSuccessHandler(function(json){
       if(!json){
         reject("update is unnecessarily.");
+        return;
       }
       window.songs = JSON.parse(json);
       console.log("=========== finished get song list. ==========");
@@ -22,6 +23,7 @@ window.onload = async function(){
           resolve();
         }else if(parseInt(c / 1000) > cc){
           console.log(c, "ms keika.");
+          cc = parseInt(c / 1000);
         }
         c++;
       }, 1);
