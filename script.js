@@ -12,6 +12,11 @@ window.onload = function(){
   // リストの各行要素にデータを格納、同時にフィルターの要素生成
   Array.from(table.tBodies[0].rows).forEach(function(tr){
     Array.from(tr.cells).forEach(function(td){
+      var label = td.querySelector("label");
+      if(label){
+        label.onclick = exclution;
+        return;
+      }
       // 項目名の取得
       var item = td.firstElementChild.className.split(" ")[0];
       
@@ -52,6 +57,7 @@ function viewjacket(tr){
     
     // テーブルを乗せる要素を生成
     var tdiv = div.appendChild(document.createElement("div")); // 要素生成と追加
+    tdiv.setAttribute("name", "jacket");
     
     // 曲名などの情報を表示するテーブルを生成
     var table = tdiv.appendChild(document.createElement("table")); // 要素生成と追加
@@ -140,7 +146,7 @@ function changeRandomDup(input){
 // table[name=random] button onclick ランダム選曲を実行する時の処理
 function doRandomSelection(){
   // 必要な情報を取得
-  var songs = Array.from(document.querySelectorAll("table[name=songlist] tbody tr[display=true]")); // 表示されている曲一覧から各行要素を配列形式で取得
+  var songs = Array.from(document.querySelectorAll("table[name=songlist] tbody tr[display=true][exclude=false]")); // 表示されている曲一覧から各行要素を配列形式で取得
   var table = document.querySelector("table[name=random]"); // ランダム選曲された結果を表示するテーブル要素を取得
 
   // ランダム選曲の現在表示中の結果を破棄
@@ -149,9 +155,14 @@ function doRandomSelection(){
   // 乱数を用いて選曲
   for(var i=0; i<window.randomNum && songs.length > 0; i++){
     // 乱数から添え字を生成
-    var idx = parseInt(Math.random() * (songs.length - 1));
+    var idx = parseInt(Math.random() * songs.length);
     // テーブルに要素をコピー
-    table.tBodies[0].appendChild(songs[idx].cloneNode(true));
+    var copy = songs[idx].cloneNode(true);
+    table.tBodies[0].appendChild(copy);
+    // labelのonclickを設定
+    copy.querySelector("label").onclick = exclution;
+    // jacketを設定
+    copy.jacket = songs[idx].jacket;
     // 重複無しの場合は配列から要素を削除
     if(!window.randomDup) songs = songs.filter(function(n, i){return i!=idx;}); // 実際は要素を除いた配列を新たに生成している
   }
@@ -201,4 +212,81 @@ function changefilteritem(input){
   }else{ // 非選択状態 条件から要素を削除する
     window.filter[item] = window.filter[item].filter(function(value){return value != input.value;});
   }
+}
+
+// table[name=songlist] div input[type=checkbox] 除外するやつ
+function exclution(e){
+  stopBubbling(e);
+  e.path.forEach(function(p){
+    if(p.tagName == "TABLE"){
+      var name = p.getAttribute("name");
+      if(name == "songlist"){
+        exclude(e.target, true);
+      }else if(name == "random"){
+        exclude(e.target, false);
+        exclude(document.querySelector(`table[name=songlist] tbody label[name=${e.target.getAttribute("name")}]`), true);
+      }else if(name == "excludelist"){
+        exclude(e.target, false);
+        exclude(document.querySelector(`table[name=songlist] tbody label[name=${e.target.getAttribute("name")}]`), false);
+      }
+    }
+  });
+}
+
+function stopBubbling(e){
+  e.preventDefault();
+  e.stopPropagation();
+  console.log(e);
+}
+
+function exclude(target, isSonglist){
+  var tr = target.parentNode.parentNode.parentNode; // label < div < td < tr
+  if(tr.getAttribute("exclude") == "true"){ // to FALSE
+    target.innerText = "除外"
+    tr.style.background = "#ffff";
+    tr.setAttribute("exclude", false);
+    if(isSonglist){
+      var label = document.querySelector(`table[name=excludelist] tbody tr label[name=${tr.querySelector("label").getAttribute("name")}]`);
+      var r = label.parentNode.parentNode.parentNode; // label < div < td < tr
+      r.parentNode.removeChild(r);
+    }
+  }else{ // to TRUE
+    target.innerText = "解除";
+    tr.style.background = "#666f";
+    tr.setAttribute("exclude", true);
+    if(isSonglist){
+      var copy = tr.cloneNode(true);
+      copy.jacket = tr.jacket;
+      copy.querySelector("label").onclick = exclution;
+      document.querySelector("table[name=excludelist] tbody").appendChild(copy);
+    }
+  }
+}
+
+// table[name=random] thead input[type=button] 除外曲のリストを表示
+function exclude_list(){
+  document.querySelector("div[name=exclude]").parentNode.style.display = "block";
+}
+
+// table[name=excludelist] caption リストを閉じる
+function close_exclude_list(){
+  document.querySelector("div[name=exclude]").parentNode.style.display = "none";
+  Array.from(document.querySelectorAll("table[name=excludelist] tbody tr[exclude=false]")).forEach(function(tr){
+    tr.parentNode.removeChild(tr);
+  });
+}
+  
+
+// (table[name=songlist], table[name=excludelist]) thead input[type=button] 除外の全解除
+function exclude_allfalse(){
+  if(!confirm("除外を全解除します。")) return;
+  var e = arguments[0] || window.event;
+  e.path.forEach(function(p){
+    if(p.tagName == "TABLE"){
+      console.log(`table[name=${p.getAttribute("name")}] tbody label[exclude=true]`, document.querySelectorAll(`table[name=${p.getAttribute("name")}] tbody tr[exclude=true] label`));
+      Array.from(document.querySelectorAll(`table[name=${p.getAttribute("name")}] tbody tr[exclude=true] label`)).forEach(function(label){
+        label.click();
+      });
+    }
+  });
 }

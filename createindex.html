@@ -57,7 +57,7 @@ if(location.href.indexOf("createindex.html") < 0){
   </head>
   <body>
     <div name="modal" id="waiting">
-      <div style="height: 100px">
+      <div name="loding" style="height: 100px">
 	<div style="height: fit-content;">
 	  <span>読み込み中</span><span id="wait-animation"></span><br><span>ちょっと待ってね</span>
 	</div>
@@ -68,9 +68,9 @@ if(location.href.indexOf("createindex.html") < 0){
 	<thead>
 	  <tr>
 	    <th value="difficulty">難易度</th>
-	    <th value="level">Lv.</th>
-	    <th value="boss_attr">敵属性</th>
-	    <th value="boss_name">敵キャラ</th>
+	    <th value="level">曲Lv.</th>
+	    <th value="boss_attr">属性</th>
+	    <th value="boss_name">キャラ</th>
 	    <th value="boss_level">敵Lv.</th>
 	    <th value="genre">ジャンル</th>
 	  </tr>
@@ -92,23 +92,22 @@ if(location.href.indexOf("createindex.html") < 0){
       <table name="random">
 	<thead>
 	  <tr>
-	    <th colspan=4>ランダム選曲　<input type="number" pattern="\d*" onchange="changeRandomNum(this)" value="1"> / <span name="songNum"></span></th>
+	    <th colspan=5>ランダム選曲　<input type="number" pattern="\d*" onchange="changeRandomNum(this)" value="1"> / <span name="songNum"></span></th>
 	    <th><input type="checkbox" onchange="changeRandomDup(this)" checked="">重複あり</input></th>
 	    <th colspan=2><input type="button" onclick="doRandomSelection()" value="GO!"></th>
 	  </tr>
 	  <tr>
 	    <th value="difficulty">難易度</th>
 	    <th value="title">曲名</th>
-	    <th value="level">Lv.</th>
-	    <th value="boss_attr">敵属性</th>
-	    <th value="boss_name">敵キャラ</th>
+	    <th value="level">曲Lv.</th>
+	    <th value="boss_attr">属性</th>
+	    <th value="boss_name">キャラ</th>
 	    <th value="boss_level">敵Lv.</th>
 	    <th value="genre">ジャンル</th>
+	    <th>除外<br><input type="button" onclick="exclude_list()" value="一覧"></th>
 	  </tr>
 	</thead>
-	<tbody>
-	  
-	</tbody>
+	<tbody></tbody>
       </table>
     </div>
     <br />
@@ -119,14 +118,35 @@ if(location.href.indexOf("createindex.html") < 0){
 	  <tr>
 	    <th value="difficulty">難易度</th>
 	    <th value="title">曲名</th>
-	    <th value="level">Lv.</th>
-	    <th value="boss_attr">敵属性</th>
-	    <th value="boss_name">敵キャラ</th>
+	    <th value="level">曲Lv.</th>
+	    <th value="boss_attr">属性</th>
+	    <th value="boss_name">キャラ</th>
 	    <th value="boss_level">敵Lv.</th>
 	    <th value="genre">ジャンル</th>
+	    <th>除外<br><input type="button" onclick="exclude_allfalse()" value="全解除"></th>
 	  </tr>
 	</thead>
       </table>
+    </div>
+    <div name="modal" style="display: none;">
+      <div name="exclude" style="width: 460px; height: 100%;">
+	<table name="excludelist" style="border: 2px solid;">
+	  <caption onclick="close_exclude_list()">× 閉じる</caption>
+	  <thead>
+	    <tr>
+	      <th value="difficulty">難易度</th>
+	      <th value="title">曲名</th>
+	      <th value="level">曲Lv.</th>
+	      <th value="boss_attr">属性</th>
+	      <th value="boss_name">キャラ</th>
+	      <th value="boss_level">敵Lv.</th>
+	      <th value="genre">ジャンル</th>
+	      <th>除外<br><input type="button" onclick="exclude_allfalse()" value="全解除"></th>
+	    </tr>
+	  </thead>
+	  <tbody></tbody>
+	</table>
+      </div>
     </div>
   </body>
 </html>

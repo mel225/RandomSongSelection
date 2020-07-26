@@ -33,6 +33,14 @@ table[name=songlist] tbody tr:hover {
   background: #ddd;
 }
 
+table tbody tr label {
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 1px 4px;
+  background: #ddf;
+  cursor: pointer;
+}
+
 td, th {
   min-width: 20px;
   max-width: 120px;
@@ -124,7 +132,7 @@ div[name=modal] {
   z-index: 100;
 }
 
-div[name=modal] div {
+div[name=jacket], div[name=loding], div[name=loding] div {
   position: absolute;
   display: table-cell;
   background: #fff;
@@ -138,7 +146,12 @@ div[name=modal] div {
   border-radius: 10px;
 }
 
-div[name=modal] table {
+div[name=loding] span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+div[name=jacket] table {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -146,24 +159,50 @@ div[name=modal] table {
   border-collapse: unset;
 }
 
-div[name=modal] td {
+div[name=jacket] td {
   text-align: center;
 }
 
-div[name=modal] span {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-div[name=modal] img {
+div[name=jacket] img {
   width: 100%;
   height: auto;
 }
 
-div[name=modal] button {
+div[name=jacket] button {
   width: 90%;
   font-size: 20px;
   padding: 5px;
+}
+
+div[name=exclude] {
+  position: absolute;
+  display: table-cell;
+  background: #fff;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 460px;
+  height: auto;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+table[name=excludelist] {
+  position: absolute;
+  width: 95%;
+  margin: 2%;
+  left: 0;
+  right: 0;
+}
+
+table[name=excludelist] caption {
+  margin: 4px;
+  padding: 4px 1px;
+  border: 1px solid;
+  border-radius: 5px;
+  background: #ccc;
 }
 
 /*//////// ここからクラス ////////*/

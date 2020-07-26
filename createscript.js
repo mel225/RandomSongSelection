@@ -29,9 +29,11 @@ window.onload = async function(){
   var celltitles = Array.from(table.tHead.rows[0].cells).map(function(th){return th.getAttribute("value");});
   
   // テーブルに反映
+  var exclude_id = 0;
   songs.forEach(function(song){
     var tr = body.insertRow();
     celltitles.forEach(function(ct){
+      if(!ct) return;
       var div = tr.insertCell().appendChild(document.createElement("div"));
       div.innerText = song[ct];
       switch(ct){
@@ -43,6 +45,12 @@ window.onload = async function(){
         div.className = ct;
       }
     });
+
+    var div = tr.insertCell().appendChild(document.createElement("div"));
+    var label = div.appendChild(document.createElement("label"));
+    label.setAttribute("name", "exclude_" + exclude_id++);
+    label.innerText = "除外";
+    
     var input = tr.appendChild(document.createElement("input"));
     input.type = "hidden";
     input.value = song.jacket;
@@ -50,6 +58,7 @@ window.onload = async function(){
     tr.setAttribute("ontouchstart", "");
     tr.setAttribute("display", true);
     tr.setAttribute("style", "");
+    tr.setAttribute("exclude", false);
   });
   
   // いろいろな初期化

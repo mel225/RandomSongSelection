@@ -133,7 +133,7 @@ window.onload = async function(){
   document.querySelector("meta[name=viewport]").setAttribute("content", "width=device-width,initial-scale=1.0,user-scalable=yes,shrink-to-fit=no");
 
   // body取得
-  var body = document.querySelector("html").innerHTML;
+  var body = document.querySelector("body").innerHTML;
 
   // これをドライブに保存する
   await new Promise(function(resolve){
