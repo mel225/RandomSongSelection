@@ -42,7 +42,7 @@ table tbody tr label {
 }
 
 td, th {
-  min-width: 20px;
+  min-width: 30px;
   max-width: 120px;
   padding: 2px;
   margin: 0;
@@ -76,6 +76,14 @@ input[type=button] {
   font-size: 10px;
   margin: 2px 0;
   padding: 0;
+}
+
+table[name=filter] caption {
+  border: 2px solid;
+  border-radius: 15px;
+  background: #ccc;
+  cursor: pointer;
+  margin: 3px 10px;
 }
 
 table[name=filter] button[name=setsublist] {
