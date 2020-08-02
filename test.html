@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes,shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <title>オンゲキ 楽曲検索システム</title>
+    <link rel="stylesheet" href="./newcontent.css">
+    <script src="./newscript.js"></script>
+    <script>
+var baseW = 768;
+var iOSW = 0;
+var ua = navigator.userAgent.toLowerCase();
+var isiOS = (ua.indexOf("iphone") > -1) || (ua.indexOf("ipod") > -1) || (ua.indexOf("ipad") > -1);
+if(isiOS){
+  iOSW = document.documentElement.clientWidth;
+}
+window.addEventListener("resize", updateMetaViewport, false);
+window.addEventListener("orientationchange", updateMetaViewport, false);
+var ev = document.createEvent("UIEvent");
+ev.initEvent("resize", true, true);
+window.dispatchEvent(ev);
+function updateMetaViewport(){
+  var viewportContent;
+  var w = window.outerWidth;
+  if(isiOS){
+    w = iOSW;
+  }
+  if(w < baseW){
+    viewportContent = "width=480,initial-scale=" + w/480 + ",user-scalable=yes,shrink-to-fit=no";
+  }else{
+    viewportContent = "width=device-width,initial-scale=1.0,user-scalable=yes,shrink-to-fit=no";
+  }
+  document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
+}
+    </script>
+  </head>
+  <body>
+    <div>
+      <select name="old_html" style="padding: 0 5px;" onchange="set_old_html()">
+	<option hidden selected>過去のを選択</option>
+      </select>
+      <input type="button" value="←の時のリストを表示" style="width: fit-content; padding: 0 5px;" onclick="old_html_submit()">
+      <input type="button" value="最新版はこちら" style="width: fit-content; padding: 0 5px;" onclick="new_html_submit()">
+      <input type="hidden" name="old_html_value">
+      <input type="hidden" name="new_html_value">
+      <br>
+      <span name="date_str"></span> 更新時の楽曲リスト
+    </div>
+    <iframe src="https://script.google.com/macros/s/AKfycbw0o3DLrOyxljd6PuTZgsCdghchmxKM-rHQeGj8XOevlMM5MCA/exec"></iframe>
+  </body>
+</html>

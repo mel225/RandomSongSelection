@@ -1,0 +1,278 @@
+body {
+  font-family: sans-serif;
+  margin: 8px 0px;
+}
+
+body div {
+  position: relative;
+  padding: 5px 0;
+  width: 460px;
+  height: calc(5% - 8px);
+  text-align: center;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  font-size: middle;
+}
+
+iframe {
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  height: calc(95% - 8px);
+  border: none;
+}
+
+table {
+  width: 100%;
+  border: 2px solid;
+  padding: 1px;
+  border-collapse: collapse;
+}
+
+table tr {
+  border: 1px solid;
+  height: 25px;
+}
+
+table[name=songlist] tbody tr, table[name=random] tbody tr {
+  cursor: pointer;
+}
+
+table[name=songlist] tbody tr:hover {
+  background: #ddd;
+}
+
+table tbody tr label {
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 1px 4px;
+  background: #ddf;
+  cursor: pointer;
+}
+
+td, th {
+  min-width: 30px;
+  max-width: 120px;
+  padding: 2px;
+  margin: 0;
+}
+
+@media screen and (max-device-width: 960px){
+  td, th {
+    font-size: small;
+  }
+}
+
+@media screen and (min-device-width: 960px){
+  td, th {
+    font-size: 8px;
+  }
+}
+
+td div {
+  width: 100%;
+}
+
+input[type=number] {
+  width: 50px;
+  height: 16px;
+  font-size: 12px;
+}
+
+input[type=button] {
+  width: 90%;
+  height: 18px;
+  font-size: 10px;
+  margin: 2px 0;
+  padding: 0;
+}
+
+table[name=filter] caption {
+  border: 2px solid;
+  border-radius: 15px;
+  background: #ccc;
+  cursor: pointer;
+  margin: 3px 10px;
+}
+
+table[name=filter] button[name=setsublist] {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+table[name=filter] td {
+  vertical-align: top;
+  text-align: center;
+  overflow: auto;
+}
+
+table[name=filter] ul {
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 0;
+  list-style: none;
+  max-height: 165px;
+  width: fit-content;
+}
+
+table[name=filter] li {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+
+table[name=filter] li input + label {
+  display: block;
+  padding: 1px 2px;
+  margin: 2px 0;
+  border: 2px solid;
+  border-radius: 4px;
+  text-align: center;
+}
+
+table[name=filter] li input:checked + label { 
+  background: #fcc;
+}
+
+div[name=modal] {
+  position: fixed;
+  background: #000c;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+div[name=jacket], div[name=loding], div[name=loding] div {
+  position: absolute;
+  display: table-cell;
+  background: #fff;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 360px;
+  height: 440px;
+  border-radius: 10px;
+}
+
+div[name=loding] span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+div[name=jacket] table {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-collapse: unset;
+}
+
+div[name=jacket] td {
+  text-align: center;
+}
+
+div[name=jacket] img {
+  width: 100%;
+  height: auto;
+}
+
+div[name=jacket] button {
+  width: 90%;
+  font-size: 20px;
+  padding: 5px;
+}
+
+div[name=exclude] {
+  position: absolute;
+  display: table-cell;
+  background: #fff;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 460px;
+  height: auto;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+table[name=excludelist] {
+  position: absolute;
+  width: 95%;
+  margin: 2%;
+  left: 0;
+  right: 0;
+}
+
+table[name=excludelist] caption {
+  margin: 4px;
+  padding: 4px 1px;
+  border: 1px solid;
+  border-radius: 5px;
+  background: #ccc;
+}
+
+/*//////// ここからクラス ////////*/
+
+div.difficulty.basic {
+  color: #fff;
+  font-weight: bold;
+  background: linear-gradient(#21921a, #60ce23);
+}
+
+div.difficulty.advanced {
+  color: #fff;
+  font-weight: bold;
+  background: linear-gradient(#f1a600, #f1d300);
+}
+
+div.difficulty.expert {
+  color: #fff;
+  font-weight: bold;
+  background: linear-gradient(#f42087, #f36bb4);
+}
+
+div.difficulty.master {
+  color: #fff;
+  font-weight: bold;
+  background: linear-gradient(#853ac1, #b46bd6);
+}
+
+div.difficulty.lunatic {
+  color: #d00;
+  font-weight: bold;
+  background: #ddd;
+}
+
+div.boss_attr {
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+div.boss_attr.fire {
+  background: #d22f5d;
+}
+
+div.boss_attr.leaf {
+  background: #13ae29;
+}
+
+div.boss_attr.aqua {
+  background: #2481cc;
+}
+
+div.level, div.boss_level {
+  font-weight: bold;
+}
