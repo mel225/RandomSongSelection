@@ -1,16 +1,26 @@
 body {
   font-family: sans-serif;
+  margin: 8px 0px;
 }
 
 body div {
   position: relative;
+  padding: 5px 0;
   width: 460px;
-  height: auto;
+  height: calc(5% - 8px);
   text-align: center;
   margin: 0 auto;
   left: 0;
   right: 0;
   font-size: middle;
+}
+
+iframe {
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  height: calc(95% - 8px);
+  border: none;
 }
 
 table {

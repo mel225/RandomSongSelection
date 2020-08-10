@@ -1,5 +1,17 @@
 /************** 読み込み時実行内容 ***************/
-window.onload = function(){
+window.addEventListener("load", window_onload);
+
+var timerID = setInterval(function(){
+  if(document.readyState == "complete"){
+    if(!window.window_onload_execute){
+      window.removeEventListener("load", window_onload);
+      window_onload();
+    }
+    clearInterval(timerID);
+  }
+}, 100);
+
+function window_onload(){
   // いろいろな初期化
   window.filter = {}; // フィルター条件の初期化
   window.randomNum = 1; // ランダム選曲の曲数の初期化
@@ -39,6 +51,46 @@ window.onload = function(){
     // 画像のURLを設定
     tr.jacket = "https://ongeki-net.com/ongeki-mobile/img/music/" + tr.lastElementChild.value;
   });
+
+  window.window_onload_execute = true;
+}
+
+// フィルターに設定した条件に基づいて曲一覧を更新する
+function setsublist(){
+  // 変数宣言
+  var count = 0; // 該当曲数
+  var table = document.querySelector("table[name=songlist]"); // 曲一覧テーブル
+
+  // 条件(window.filter)に従い、曲一覧テーブルの各曲の 表示/非表示 を設定する
+  Array.from(table.tBodies[0].rows).forEach(function(tr){
+    var applicable = true; // 条件に該当するか
+    
+    // 各項目条件を参照
+    Object.keys(window.filter).forEach(function(item){ // item: 項目名
+      if(applicable){ // 有効であれば
+        // 各項目の有効条件を取得
+        var value = filter[item];
+        if(Array.isArray(value)){ // 複数指定のとき
+          applicable = (value.indexOf(tr[item]) >= 0);
+        }else{ // 単一指定のとき(おそらく不使用)
+          applicable = (value == tr[item]);
+        }
+      }
+    });
+    
+    // 結果に従い表示、非表示の設定
+    if(applicable){
+      tr.style.display = ""; // [HTMLTable*Element] の表示は "block" ではなく ""
+      tr.setAttribute("display", true); // 属性値を付けておく（querySelectorで検出しやすくするため）
+      count++; // 該当数のカウントアップ
+    }else{
+      tr.style.display = "none"; // 非表示設定
+      tr.setAttribute("display", false); // 属性値を付けておく（querySelectorで検出しやすくするため）
+    }
+  });
+
+  // 該当曲数を表示
+  document.querySelector("span[name=songNum]").innerText = count + "曲";
 }
 
 /************** 以下 要素登録関数(onchangeとか) **************/
@@ -89,44 +141,6 @@ function viewjacket(tr){
 
   // モーダルウィンドウを表示
   div.style.display = "block";
-}
-
-// table[name=filter] tr onclick フィルターに設定した条件に基づいて曲一覧を更新する
-function setsublist(){
-  // 変数宣言
-  var count = 0; // 該当曲数
-  var table = document.querySelector("table[name=songlist]"); // 曲一覧テーブル
-
-  // 条件(window.filter)に従い、曲一覧テーブルの各曲の 表示/非表示 を設定する
-  Array.from(table.tBodies[0].rows).forEach(function(tr){
-    var applicable = true; // 条件に該当するか
-    
-    // 各項目条件を参照
-    Object.keys(window.filter).forEach(function(item){ // item: 項目名
-      if(applicable){ // 有効であれば
-        // 各項目の有効条件を取得
-        var value = filter[item];
-        if(Array.isArray(value)){ // 複数指定のとき
-          applicable = (value.indexOf(tr[item]) >= 0);
-        }else{ // 単一指定のとき(おそらく不使用)
-          applicable = (value == tr[item]);
-        }
-      }
-    });
-    
-    // 結果に従い表示、非表示の設定
-    if(applicable){
-      tr.style.display = ""; // [HTMLTable*Element] の表示は "block" ではなく ""
-      tr.setAttribute("display", true); // 属性値を付けておく（querySelectorで検出しやすくするため）
-      count++; // 該当数のカウントアップ
-    }else{
-      tr.style.display = "none"; // 非表示設定
-      tr.setAttribute("display", false); // 属性値を付けておく（querySelectorで検出しやすくするため）
-    }
-  });
-
-  // 該当曲数を表示
-  document.querySelector("span[name=songNum]").innerText = count + "曲";
 }
 
 // table[name=random] input[type=number] onchange ランダム選曲の曲数の値が変更された時の処理
@@ -182,6 +196,9 @@ function filterselectall(input){
 
   // 条件をセット
   window.filter[item] = items;
+
+  // リストを更新する
+  setsublist();
 }
 
 // table[name=filter] button onclick フィルターの項目毎の全解除をするときの処理
@@ -196,6 +213,9 @@ function filternotselectall(input){
 
   // 条件(window.filter)を空にする
   window.filter[item] = [];
+
+  // リストを更新する
+  setsublist();
 }
 
 // table[name=filter] li input onchange フィルターの各要素の状態が変更された時の処理
@@ -212,6 +232,9 @@ function changefilteritem(input){
   }else{ // 非選択状態 条件から要素を削除する
     window.filter[item] = window.filter[item].filter(function(value){return value != input.value;});
   }
+
+  // リストを更新する
+  setsublist();
 }
 
 // table[name=songlist] div input[type=checkbox] 除外するやつ
@@ -291,4 +314,32 @@ function exclude_allfalse(){
       });
     }
   });
+}
+
+function filter_sh(e){
+  var evt = e || window.event;
+  var target = evt.target;
+
+  var attr = target.getAttribute("sh");
+
+  if(!attr){ // 隠すとき
+    target.setAttribute("sh", "hide");
+    Array.from(target.parentNode.rows).forEach(function(row){
+      row.style.display = "none";
+    });
+    target.innerText = "フィルター表を表示";
+  }else{ // 見せるとき
+    target.removeAttribute("sh");
+    Array.from(target.parentNode.rows).forEach(function(row){
+      row.style.display = "";
+    });
+    target.innerText = "フィルター表↓を非表示";
+  }
+}
+
+function set_old_html(e){
+  var evt = e || window.event;
+  var target = evt.target;
+
+  document.querySelector("input[name=old_html_value]").value = target.value;
 }
