@@ -217,7 +217,8 @@ function changefilteritem(input){
 // table[name=songlist] div input[type=checkbox] 除外するやつ
 function exclution(e){
   stopBubbling(e);
-  e.path.forEach(function(p){
+  var p = e.target;
+  while(p.parentNode){
     if(p.tagName == "TABLE"){
       var name = p.getAttribute("name");
       if(name == "songlist"){
@@ -230,7 +231,8 @@ function exclution(e){
         exclude(document.querySelector(`table[name=songlist] tbody label[name=${e.target.getAttribute("name")}]`), false);
       }
     }
-  });
+    p = p.parentNode;
+  }
 }
 
 function stopBubbling(e){
