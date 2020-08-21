@@ -19,8 +19,6 @@ function main(){
     // blobにしてデータURL生成
     var url = URL.createObjectURL(new Blob([json], {type: "text/plain"}));
 
-    console.log(l.map(ll=>ll.genre).join("\t"));
-
     /*
     var xhr = new XMLHttpRequest();
     xhr.open("GET","https://script.google.com/macros/s/AKfycbw0o3DLrOyxljd6PuTZgsCdghchmxKM-rHQeGj8XOevlMM5MCA/exec");
@@ -28,8 +26,8 @@ function main(){
     fd.append("date", "json");
     fd.append("data", window.json);
     xhr.send(fd);
-
-    /*
+    */
+    
     // aタグのdownload属性使用してダウンロード
     var a = document.createElement("a"); // ここでhtml本体に追加すると別窓で開く場合がある。
     a.style.display = "none";
@@ -42,7 +40,6 @@ function main(){
     if(confirm("続けて HTML 生成ページ（ローカル）に移行する？")){
       location.href = "http://localhost/RandomSongSelection/createindex.html";
     }
-      */
   });
 }
 
