@@ -3,17 +3,29 @@ window.onload = async function(){
   window.ver = "2020/07/01";
 
   // songlist.jsonの読み込み
-  await new Promise(function(resolve){
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "./songlist.json");
-    xhr.responseType = "text";
-    xhr.onload = function(){
-      window.songs = JSON.parse(xhr.responseText);
-      setTimeout(resolve, 1);
-    };
-    xhr.send();
-  });
-  
+  if(location.href.split("?")[1]){
+    await new Promise(function(resolve){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://script.google.com/macros/s/AKfycbw0o3DLrOyxljd6PuTZgsCdghchmxKM-rHQeGj8XOevlMM5MCA/exec");
+      xhr.responseType = "text";
+      xhr.onload = function(){
+        window.songs = JSON.parse(xhr.response.querySelector("pre").innerText.match(/"(.*)"/)[1].replace(/\\"/g,"\"")); // ")); // 手持ちのエディタのせい
+        setTimeout(resolve, 1);
+      };
+      xhr.send();
+    });
+  }else{
+    await new Promise(function(resolve){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "./songlist.json");
+      xhr.responseType = "text";
+      xhr.onload = function(){
+        window.songs = JSON.parse(xhr.responseText);
+        setTimeout(resolve, 1);
+      };
+      xhr.send();
+    });
+  }
   // フィルターの生成
   window.filter = filterselection();
   

@@ -244,17 +244,8 @@ function changefilteritem(input){
 // table[name=songlist] div input[type=checkbox] 除外するやつ
 function exclution(e){
   stopBubbling(e);
-  if(!e.path){
-    var f = e.target;
-    while(f.parentNode){
-      f = f.parentNode;
-      set_exclution(f);
-    }
-  }else{
-    e.path.forEach(set_exclution);
-  }
-  
-  function set_exclution(p){
+  var p = e.target;
+  while(p.parentNode){
     if(p.tagName == "TABLE"){
       var name = p.getAttribute("name");
       if(name == "songlist"){
@@ -267,6 +258,7 @@ function exclution(e){
         exclude(document.querySelector(`table[name=songlist] tbody label[name=${e.target.getAttribute("name")}]`), false);
       }
     }
+    p = p.parentNode;
   }
 }
 
@@ -317,14 +309,16 @@ function close_exclude_list(){
 function exclude_allfalse(){
   if(!confirm("除外を全解除します。")) return;
   var e = arguments[0] || window.event;
-  e.path.forEach(function(p){
+  var p = e.target;
+  while(p.parentNode){
     if(p.tagName == "TABLE"){
       console.log(`table[name=${p.getAttribute("name")}] tbody label[exclude=true]`, document.querySelectorAll(`table[name=${p.getAttribute("name")}] tbody tr[exclude=true] label`));
       Array.from(document.querySelectorAll(`table[name=${p.getAttribute("name")}] tbody tr[exclude=true] label`)).forEach(function(label){
         label.click();
       });
     }
-  });
+    p = p.parentNode;
+  }
 }
 
 function filter_sh(e){
