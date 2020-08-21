@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <script>
+function jsonp(url, callback) {
+  var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+  window[callbackName] = function(data) {
+    delete window[callbackName];
+    document.head.removeChild(script);
+    callback(data);
+  };
+  
+  var script = document.createElement('script');
+  script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+  document.head.appendChild(script);
+}
+
+jsonp('https://script.google.com/macros/s/AKfycbziWD6wMUX2s5_xvVocHDY0cjryB_Bg6Z8GfRDp4tF4g5uoDqk/exec?text=aaa', function(data) {
+   document.querySelector("span[name=result]").innerText = JSON.stringify(data);
+});
+    </script>
+  </head>
+  <body>
+    <span name="result"></span>
+  </body>
+</html>

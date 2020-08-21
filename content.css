@@ -2,6 +2,10 @@ body {
   font-family: sans-serif;
 }
 
+header {
+  text-align: center;
+}
+
 body div {
   position: relative;
   width: 460px;
@@ -10,7 +14,6 @@ body div {
   margin: 0 auto;
   left: 0;
   right: 0;
-  font-size: middle;
 }
 
 table {

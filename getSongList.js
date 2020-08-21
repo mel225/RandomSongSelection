@@ -19,6 +19,17 @@ function main(){
     // blobにしてデータURL生成
     var url = URL.createObjectURL(new Blob([json], {type: "text/plain"}));
 
+    console.log(l.map(ll=>ll.genre).join("\t"));
+
+    /*
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET","https://script.google.com/macros/s/AKfycbw0o3DLrOyxljd6PuTZgsCdghchmxKM-rHQeGj8XOevlMM5MCA/exec");
+    var fd = new FormData();
+    fd.append("date", "json");
+    fd.append("data", window.json);
+    xhr.send(fd);
+
+    /*
     // aタグのdownload属性使用してダウンロード
     var a = document.createElement("a"); // ここでhtml本体に追加すると別窓で開く場合がある。
     a.style.display = "none";
@@ -31,6 +42,7 @@ function main(){
     if(confirm("続けて HTML 生成ページ（ローカル）に移行する？")){
       location.href = "http://localhost/RandomSongSelection/createindex.html";
     }
+      */
   });
 }
 
@@ -59,16 +71,17 @@ function getSongData(url){
       diffdata.title = doc.querySelector("div.m_5.f_14.break").innerText.trim();
       diffdata.genre = doc.querySelector("div.t_r.f_12.main_color").innerText.trim();
       var detail = doc.querySelector("div.m_5.f_13.break").innerText.replace(/(^|(?<=\n))[ 　\t]*($|\n)/g, "").split("\n");
-      //diffdata.subtitle = detail[0].trim();
+      diffdata.subtitle = detail[0].trim();
       diffdata.boss_name = detail[2].trim().split(" Lv")[0];
       diffdata.boss_level = detail[2].trim().split("Lv.")[1];
       diffdata.boss_attr = doc.querySelector("img.h_16.v_m").src.split("icon_")[1].split(".png")[0];
-      //diffdata.first_attr = doc.querySelectorAll("img.v_m")[1].src.split("mini_")[1].split(".png")[0];
+      diffdata.first_attr = doc.querySelectorAll("img.v_m")[1].src.split("mini_")[1].split(".png")[0];
       diffdata.jacket = doc.querySelector("img.m_5.f_l").src.replace(/.*\//g, "");
     });
-
+                                                                           
     await new Promise(function(r){setTimeout(r, 1);});
-    
+                                                                           
     return data;
   });
-}
+}                                         
+                                                                           

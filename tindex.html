@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <title>オンゲキ 楽曲検索システム</title>
     <link rel="stylesheet" href="./content.css">
-    <script src="./createscript.js"></script>
+    <script src="./tscript.js"></script>
     <script>
 var baseW = 768;
 var iOSW = 0;
@@ -34,28 +34,29 @@ function updateMetaViewport(){
   }
   document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
 }
-    </script>
-    <script>
-if(location.href.indexOf("createindex.html") < 0){
-  var animation = {
-    str: ["", ".", "..", "...", "..."],
-    count: 0,
-    timerID: setInterval(function(){
-      var target = document.getElementById("wait-animation");
-      if(target){
-        target.innerText = animation.str[animation.count];
-        animation.count = (animation.count+1) % animation.str.length;
-      }
-    }, 100),
-  };
-  window.addEventListener("load", function(){
-    clearInterval(animation.timerID);
-    document.body.removeChild(document.getElementById("waiting"));
-  });
+
+var animation = {
+  str: ["", ".", "..", "...", "..."],
+  count: 0,
+  timerID: setInterval(function(){
+    var target = document.getElementById("wait-animation");
+    if(target){
+      target.innerText = animation.str[animation.count];
+      animation.count = (animation.count+1) % animation.str.length;
+    }
+  }, 400),
+};
+
+function load_complete(){
+  clearInterval(animation.timerID);
+  document.body.removeChild(document.getElementById("waiting"));
 }
     </script>
   </head>
   <body>
+    <header>
+      <h2>Random Song Selection - ONGEKI -</h2>
+    </header>
     <div name="modal" id="waiting">
       <div name="loding" style="height: 100px">
         <div style="height: fit-content;">
@@ -65,6 +66,7 @@ if(location.href.indexOf("createindex.html") < 0){
     </div>
     <div>
       <table name="filter">
+        <caption onclick="filter_sh()">フィルター表↓を非表示</caption>
         <thead>
           <tr>
             <th value="difficulty">難易度</th>

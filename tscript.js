@@ -1,20 +1,29 @@
 /************** 読み込み時実行内容 ***************/
-window.addEventListener("load", window_onload);
-
-var timerID = setInterval(function(){
-  if(document.readyState == "complete"){
-    if(!window.window_onload_execute){
-      window.removeEventListener("load", window_onload);
-      window_onload();
-    }
-    clearInterval(timerID);
+// 楽曲データの取得
+var songlist;
+jsonp("https://script.google.com/macros/s/AKfycbzgVmnE9rqcIjH2uaOZizkcYP_wqA8xj6kEqGZVsCYKvL_EIl1i/exec", function(data){
+  window.songlist = data;
+  if(document.readyState != "complete"){
+    window.addEventListener("load", window_onload);
+  }else{
+    window_onload();
   }
-}, 100);
+});
 
-function window_onload(){
-  // 実行した証
-  window.window_onload_execute = true;
+function jsonp(url, callback) {
+  var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+  window[callbackName] = function(data) {
+    delete window[callbackName];
+    document.head.removeChild(script);
+    callback(data);
+  };
   
+  var script = document.createElement('script');
+  script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+  document.head.appendChild(script);
+}
+
+function window_onload(){  
   // いろいろな初期化
   window.filter = {}; // フィルター条件の初期化
   window.randomNum = 1; // ランダム選曲の曲数の初期化
@@ -23,40 +32,115 @@ function window_onload(){
 
   // 曲一覧テーブル要素の取得
   var table = document.querySelector("table[name=songlist]");
+  if(!table.tBodies.length){
+    table.createTBody();
+  }
 
-  // リストの各行要素にデータを格納、同時にフィルターの要素生成
-  Array.from(table.tBodies[0].rows).forEach(function(tr){
-    Array.from(tr.cells).forEach(function(td){
-      var label = td.querySelector("label");
-      if(label){
+  // songlistからリストを生成、各行要素にデータを格納、同時にフィルターの要素生成
+  for(var i = 0; i < songlist.length; i++){
+    var song = songlist[i];
+    var tr = table.tBodies[0].insertRow();
+
+    tr.onclick = function(){viewjacket(this)};
+    tr.setAttribute("display", "true");
+    tr.setAttribute("exclude", "false");
+    tr.setAttribute("title", song.title);
+
+    ["difficulty", "title", "level", "boss_attr", "boss_name", "boss_level", "genre", "label"].forEach(function(header){
+
+      // 情報の付加
+      tr[header] = song[header];
+
+      // 本体の作成
+      var div = tr.insertCell().appendChild(document.createElement("div"));
+      switch(header){
+      case "label":
+        var label = div.appendChild(document.createElement("label"));
         label.onclick = exclution;
-        return;
-      }
-      // 項目名の取得
-      var item = td.firstElementChild.className.split(" ")[0];
-      
-      // 要素の取得
-      var value = td.innerText.replace(/[\r\n]/g, "");
-      
-      // データ格納
-      tr[item] = value;
+        label.setAttribute("name", "exclude_" + i);
+        label.innerText = "除外";
+        break;
 
+      case "difficulty":
+      case "boss_attr":
+        div.className = header + " " + song[header];
+        div.innerText = song[header];
+        break;
+
+      default:
+        div.className = header;
+        div.innerText = song[header];
+        break;
+      }
+      
       // フィルターの要素生成（タイトル以外）
-      if(item != "title"){
-        if(window.filter[item]){ // すでに項目が生成されている場合
-          if(window.filter[item].indexOf(value) < 0) // すでに要素が追加されてなければ追加
-            window.filter[item].push(value);
+      if(header != "title"){
+        if(window.filter[header]){ // すでに項目が生成されている場合
+          if(window.filter[header].indexOf(song[header]) < 0) // すでに要素が追加されてなければ追加
+            window.filter[header].push(song[header]);
         }else{ // 項目別初となる要素のとき
-          window.filter[item] = [value]; // 要素を配列形式にして追加
+          window.filter[header] = [song[header]]; // 要素を配列形式にして追加
         }
       }
-    });
+    })
+    
     // 画像のURLを設定
-    tr.jacket = "https://ongeki-net.com/ongeki-mobile/img/music/" + tr.lastElementChild.value;
-  });
+    tr.jacket = "https://ongeki-net.com/ongeki-mobile/img/music/" + song.jacket;
+
+    // 追加日を設定
+    tr.append_date = song.append_date;
+    
+    // 削除日を設定
+    tr.delete_date = song.delete_date;
+
+    // サブタイトルを設定
+    tr.subtitle - song.subtitle;
+  }
 
   // 曲数を設定
-  document.querySelector("span[name=songNum]").innerText = table.tBodies[0].rows.length + "曲";
+  document.querySelector("span[name=songNum]").innerText = songlist.length + "曲";
+
+  // フィルター要素のソート
+  window.filter.level.sort(complevel);
+  window.filter.boss_level.sort(complevel);
+  
+  function complevel(a,b){
+    var al = a.replace(/[^0-9]/g,"").length;
+    var bl = b.replace(/[^0-9]/g,"").length;
+    if(al == bl){
+      if(a<b) return -1;
+      else if(a==b) return 0;
+      else return 1;
+    }else{
+      if(al<bl) return -1;
+      else return 1;
+    }
+  }
+
+  // フィルター表の生成
+  var table = document.querySelector("table[name=filter]");
+  var tr = table.tBodies[0].insertRow();
+  Array.from(table.tHead.rows[0].cells).forEach(function(th){
+    var td = tr.insertCell();
+    var item = th.getAttribute("value");
+    td.setAttribute("value", item);
+    var list = td.appendChild(document.createElement("ul"));
+    window.filter[item].forEach(function(e){
+      var element = list.appendChild(document.createElement("li"));
+      var input = element.appendChild(document.createElement("input"));
+      input.type = "checkbox";
+      input.style.display = "none";
+      input.id = item + "_" + e;
+      input.value = e;
+      input.setAttribute("checked", true);
+      input.setAttribute("onchange", "changefilteritem(this)");
+      var label = element.appendChild(document.createElement("label"));
+      label.setAttribute("for", item + "_" + e);
+      label.innerText = e;
+    });
+  });
+
+  load_complete();
 }
 
 // フィルターに設定した条件に基づいて曲一覧を更新する
