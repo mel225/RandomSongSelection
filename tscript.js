@@ -10,6 +10,11 @@ jsonp("https://script.google.com/macros/s/AKfycbzgVmnE9rqcIjH2uaOZizkcYP_wqA8xj6
   }
 });
 
+// キャラソート順データの取得
+jsonp("https://script.google.com/macros/s/AKfycbzgVmnE9rqcIjH2uaOZizkcYP_wqA8xj6kEqGZVsCYKvL_EIl1i/exec?bossname=list", function(data){
+  window.boss_name_list = data;
+});
+
 function jsonp(url, callback) {
   var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
   window[callbackName] = function(data) {
@@ -23,7 +28,7 @@ function jsonp(url, callback) {
   document.head.appendChild(script);
 }
 
-function window_onload(){  
+async function window_onload(){  
   // いろいろな初期化
   window.filter = {}; // フィルター条件の初期化
   window.randomNum = 1; // ランダム選曲の曲数の初期化
@@ -103,6 +108,21 @@ function window_onload(){
   // フィルター要素のソート
   window.filter.level.sort(complevel);
   window.filter.boss_level.sort(complevel);
+  await new Promise(function(r){
+    var fid = setInterval(function(){
+      if(window.boss_name_list){
+        clearInterval(fid);
+        r();
+      }
+    });
+  },0);
+  window.filter.boss_name.sort(function(a,b){
+    var ai = window.boss_name_list.indexOf(a);
+    var bi = window.boss_name_list.indexOf(b);
+    if(bi < 0) return -1;
+    if(ai < 0) return 1;
+    return ai - bi;
+  });
   
   function complevel(a,b){
     var al = a.replace(/[^0-9]/g,"").length;
@@ -118,6 +138,13 @@ function window_onload(){
   }
 
   // フィルター表の生成
+  createFilter();
+
+  load_complete();
+}
+
+// フィルター表の生成
+function createFilter(){
   var table = document.querySelector("table[name=filter]");
   var tr = table.tBodies[0].insertRow();
   Array.from(table.tHead.rows[0].cells).forEach(function(th){
@@ -139,8 +166,6 @@ function window_onload(){
       label.innerText = e;
     });
   });
-
-  load_complete();
 }
 
 // フィルターに設定した条件に基づいて曲一覧を更新する
