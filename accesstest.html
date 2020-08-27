@@ -4,16 +4,21 @@
 function jsonp(url, callback) {
   var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
   window[callbackName] = function(data) {
+    alert("d");
     delete window[callbackName];
     document.head.removeChild(script);
     callback(data);
   };
-  
+
+  alert("b");
   var script = document.createElement('script');
   script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+  alert(script.src);
   document.head.appendChild(script);
+  alert("c");
 }
 
+alert("a");
 jsonp('https://script.google.com/macros/s/AKfycbziWD6wMUX2s5_xvVocHDY0cjryB_Bg6Z8GfRDp4tF4g5uoDqk/exec?text=aaa', function(data) {
    document.querySelector("span[name=result]").innerText = JSON.stringify(data);
 });
