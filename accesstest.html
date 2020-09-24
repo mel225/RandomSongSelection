@@ -16,7 +16,7 @@ function jsonp(url, callback) {
     callback(data);
   };
 
-  alert("b");
+  alert("b");/*
   var script = document.createElement('script');
   script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
   alert(script.src);
@@ -26,6 +26,7 @@ function jsonp(url, callback) {
   };
   document.head.appendChild(script);
   alert("c");
+               */
   
   $.ajax({
     type: 'GET',
