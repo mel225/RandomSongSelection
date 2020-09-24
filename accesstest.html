@@ -32,14 +32,14 @@ function jsonp(url, callback) {
     type: 'GET',
     url: url,
     dataType: 'jsonp',
-  }),done(out => {
+  }).done(out => {
     alert(out.message);
   }).fail(() => {
     alert("fail");
   });
 }
 
-alert("a");
+alert("A");
 jsonp(url, function(data) {
    document.querySelector("span[name=result]").innerText = JSON.stringify(data);
 });
