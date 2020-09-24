@@ -1,19 +1,32 @@
 /************** 読み込み時実行内容 ***************/
 // 楽曲データの取得
 var songlist;
-jsonp("https://script.google.com/macros/s/AKfycbzgVmnE9rqcIjH2uaOZizkcYP_wqA8xj6kEqGZVsCYKvL_EIl1i/exec", function(data){
+var url = "https://script.google.com/macros/s/AKfycbzgVmnE9rqcIjH2uaOZizkcYP_wqA8xj6kEqGZVsCYKvL_EIl1i/exec";
+
+var ua = navigator.userAgent.toLowerCase();
+if(ua.indexOf("iphone") >= 0 && ua.indexOf("safari") >= 0){
+  alert("ajaxp");
+  ajaxp(url, callback_func);
+  ajaxp(url + "?bossname=list", charasort);
+}else{
+  alert("jsonp");
+  jsonp(url, callback_func);
+  jsonp(url + "?bossname=list", charasort);
+}
+
+function callback_func(data){
   window.songlist = data;
   if(document.readyState != "complete"){
     window.addEventListener("load", window_onload);
   }else{
     window_onload();
   }
-});
+}
 
 // キャラソート順データの取得
-jsonp("https://script.google.com/macros/s/AKfycbzgVmnE9rqcIjH2uaOZizkcYP_wqA8xj6kEqGZVsCYKvL_EIl1i/exec?bossname=list", function(data){
+function charasort(data){
   window.boss_name_list = data;
-});
+}
 
 function jsonp(url, callback) {
   var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
@@ -28,7 +41,17 @@ function jsonp(url, callback) {
   document.head.appendChild(script);
 }
 
-async function window_onload(){  
+function ajaxp(url, callback) {
+  $.ajax({
+    type: 'GET',
+    url: url,
+    dataType: 'jsonp',
+    success: callback,
+  });
+}
+
+async function window_onload(){
+  alert("window_onload");
   // いろいろな初期化
   window.filter = {}; // フィルター条件の初期化
   window.randomNum = 1; // ランダム選曲の曲数の初期化
