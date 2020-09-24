@@ -35,6 +35,10 @@ function jsonp(url, callback) {
     success: out => {
       alert(out.message);
     } 
+  }),done(out => {
+    alert(out.message);
+  }).fail(() => {
+    alert("fail");
   });
 }
 
