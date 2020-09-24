@@ -16,7 +16,7 @@ function jsonp(url, callback) {
     callback(data);
   };
 
-  alert("b");/*
+  alert("B");/*
   var script = document.createElement('script');
   script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
   alert(script.src);
@@ -32,9 +32,6 @@ function jsonp(url, callback) {
     type: 'GET',
     url: url,
     dataType: 'jsonp',
-    success: out => {
-      alert(out.message);
-    } 
   }),done(out => {
     alert(out.message);
   }).fail(() => {
