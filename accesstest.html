@@ -1,6 +1,12 @@
 <html>
   <head>
+    <script
+src="https://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous"></script>
     <script>
+var url = 'https://script.google.com/macros/s/AKfycbziWD6wMUX2s5_xvVocHDY0cjryB_Bg6Z8GfRDp4tF4g5uoDqk/exec?text=aaa';
+
 function jsonp(url, callback) {
   var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
   window[callbackName] = function(data) {
@@ -14,12 +20,25 @@ function jsonp(url, callback) {
   var script = document.createElement('script');
   script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
   alert(script.src);
+  script.onload = function(data){
+    alert("e");
+    console.log(data);
+  };
   document.head.appendChild(script);
   alert("c");
+  
+  $.ajax({
+    type: 'GET',
+    url: url,
+    dataType: 'jsonp',
+    success: out => {
+      alert(out.message);
+    } 
+  });
 }
 
 alert("a");
-jsonp('https://script.google.com/macros/s/AKfycbziWD6wMUX2s5_xvVocHDY0cjryB_Bg6Z8GfRDp4tF4g5uoDqk/exec?text=aaa', function(data) {
+jsonp(url, function(data) {
    document.querySelector("span[name=result]").innerText = JSON.stringify(data);
 });
     </script>
